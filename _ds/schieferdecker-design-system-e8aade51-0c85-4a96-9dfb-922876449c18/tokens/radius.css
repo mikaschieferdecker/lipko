@@ -1,0 +1,11 @@
+/* Border radius — do not mix grammars.
+   sm = compact utility, lg = utility cards, pill = actions, md = rare Pearl button. */
+:root {
+  --radius-none: 0px;   /* full-bleed tiles — the color change is the divider */
+  --radius-xs: 5px;     /* rare inline chip links */
+  --radius-sm: 8px;     /* dark utility buttons, inline card imagery */
+  --radius-md: 11px;    /* Pearl button capsules */
+  --radius-lg: 18px;    /* store / accessory utility cards */
+  --radius-pill: 9999px;/* primary CTAs, search input, option chips */
+  --radius-full: 9999px;/* circular control chips */
+}

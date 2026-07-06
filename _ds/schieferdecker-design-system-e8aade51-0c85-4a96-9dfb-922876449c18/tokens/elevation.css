@@ -1,0 +1,10 @@
+/* Elevation — exactly ONE drop shadow in the whole system, reserved for
+   product photography resting on a surface. UI hierarchy comes from
+   surface-color change and backdrop-blur, never from shadows on chrome. */
+:root {
+  --shadow-product: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;      /* the only shadow */
+  --border-hairline: 1px solid var(--color-hairline);        /* utility cards */
+  --border-soft: 1px solid rgba(0, 0, 0, 0.08); /* @kind other */ /* sub-nav separator */
+  --blur-frosted: saturate(180%) blur(20px); /* @kind other */ /* sticky bars, sub-nav */
+  --active-press: scale(0.95); /* @kind other */ /* system-wide press */
+}

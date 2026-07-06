@@ -1,0 +1,26 @@
+/* Fonts.
+   The reference aesthetic uses SF Pro Display / SF Pro Text, which is Apple's
+   proprietary system font and cannot be shipped. Strategy:
+   1. On Apple platforms `system-ui` / `-apple-system` resolves to the real SF Pro.
+   2. Everywhere else we fall back to Inter (variable, open source) — the closest
+      match — loaded from Google Fonts below.
+   See readme.md → VISUAL FOUNDATIONS for the substitution notes. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* Declare the SF Pro family names via local() only — no binary is shipped.
+   On Apple hardware these resolve to the installed SF Pro; everywhere else the
+   token's fallback stack (Inter) renders. Replace with real src:url() rules once
+   a licensed SF Pro (or chosen substitute) webfont is uploaded. */
+@font-face {
+  font-family: "SF Pro Display";
+  src: local("SF Pro Display"), local("SFProDisplay-Regular"), local("-apple-system");
+  font-weight: 300 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Pro Text";
+  src: local("SF Pro Text"), local("SFProText-Regular"), local("-apple-system");
+  font-weight: 300 700;
+  font-display: swap;
+}

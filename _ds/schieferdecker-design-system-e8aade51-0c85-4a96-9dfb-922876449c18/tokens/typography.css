@@ -1,0 +1,49 @@
+/* Typography — SF Pro on Apple platforms, Inter fallback elsewhere.
+   Ladder is 300 / 400 / 600 / 700. Weight 500 is deliberately absent.
+   Negative tracking at display sizes = the signature "tight" cadence. */
+:root {
+  --font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  --font-text: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* type roles: size / line-height / weight / tracking */
+  --type-hero-display: 600 56px/1.07 var(--font-display);
+  --type-hero-tracking: -0.28px;
+
+  --type-display-lg: 600 40px/1.10 var(--font-display);
+  --type-display-lg-tracking: 0px;
+
+  --type-display-md: 600 34px/1.47 var(--font-text);
+  --type-display-md-tracking: -0.374px;
+
+  --type-lead: 400 28px/1.14 var(--font-text);
+  --type-lead-tracking: 0.196px;
+
+  --type-lead-airy: 300 24px/1.5 var(--font-text);   /* rare weight 300 */
+
+  --type-tagline: 600 21px/1.19 var(--font-text);
+  --type-tagline-tracking: 0.231px;
+
+  --type-body-strong: 600 17px/1.24 var(--font-text);
+  --type-body: 400 17px/1.47 var(--font-text);
+  --type-body-tracking: -0.374px;
+
+  --type-dense-link: 400 17px/2.41 var(--font-text); /* relaxed footer columns */
+
+  --type-caption: 400 14px/1.43 var(--font-text);
+  --type-caption-strong: 600 14px/1.29 var(--font-text);
+  --type-caption-tracking: -0.224px;
+
+  --type-button-large: 300 18px/1.0 var(--font-text); /* rare weight 300 */
+  --type-button-utility: 400 14px/1.29 var(--font-text);
+
+  --type-fine-print: 400 12px/1.0 var(--font-text);
+  --type-fine-tracking: -0.12px;
+
+  --type-micro-legal: 400 10px/1.3 var(--font-text);
+  --type-nav-link: 400 12px/1.0 var(--font-text);
+}

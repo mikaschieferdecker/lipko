@@ -1,0 +1,33 @@
+/* Colors — a single blue accent over black/white/parchment surfaces.
+   No second brand color. No decorative gradients. */
+:root {
+  /* --- Brand & accent --- */
+  --color-primary: #3f9973;          /* Action Green — every interactive element */
+  --color-primary-focus: #358a66;    /* focus ring only */
+  --color-primary-on-dark: #4fb88a;  /* Mint Link — brighter, inline links on dark surfaces */
+
+  /* --- Surfaces --- */
+  --color-canvas: #ffffff;           /* dominant white canvas */
+  --color-canvas-parchment: #f5f5f7; /* signature off-white; alternating tiles + footer */
+  --color-surface-pearl: #fafafc;    /* ghost-button fill, reads as button on parchment */
+  --color-surface-tile-1: #272729;   /* primary dark tile */
+  --color-surface-tile-2: #2a2a2c;   /* micro-step lighter dark tile */
+  --color-surface-tile-3: #252527;   /* micro-step darker dark tile */
+  --color-surface-black: #000000;    /* true void — nav bar, video, overlays */
+  --color-surface-chip-translucent: rgba(210, 210, 215, 0.64); /* control chip over photo */
+
+  /* --- Text --- */
+  --color-ink: #1d1d1f;              /* headlines, body, dark utility fill */
+  --color-body: #1d1d1f;             /* body copy on light */
+  --color-body-on-dark: #ffffff;     /* text on dark tiles + nav */
+  --color-body-muted: #cccccc;       /* secondary copy on dark tiles */
+  --color-ink-muted-80: #333333;     /* body on pearl button */
+  --color-ink-muted-48: #7a7a7a;     /* disabled text, fine print */
+  --color-on-primary: #ffffff;       /* label on Action Green */
+  --color-on-dark: #ffffff;
+
+  /* --- Hairlines & borders --- */
+  --color-divider-soft: rgba(0, 0, 0, 0.04); /* soft ring on secondary buttons */
+  --color-hairline: #e0e0e0;                 /* 1px card / chip border */
+  --color-border-input: rgba(0, 0, 0, 0.08); /* input + sub-nav separator */
+}

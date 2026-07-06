@@ -1,0 +1,16 @@
+/* Spacing — 8px base. Sub-base (2,4,5,6,7) for tight type nudges;
+   structural layout snaps to 8/12/16/20/24. */
+:root {
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 17px;   /* the body line-height rhythm constant */
+  --space-lg: 24px;   /* card padding */
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-section: 80px; /* product-tile vertical padding */
+
+  --container-text: 980px;   /* text-heavy sections */
+  --container-grid: 1440px;  /* product / utility grids (content lock) */
+  --gutter: 24px;            /* between utility cards */
+}
