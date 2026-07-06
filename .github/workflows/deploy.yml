@@ -1,0 +1,55 @@
+name: Deploy to All-inkl
+
+# Lädt die Website per FTP(S) auf die All-inkl-Subdomain.
+# GitHub bleibt die Quelle der Dateien – dieser Workflow spiegelt sie
+# bei jedem Push nur auf den Webspace.
+#
+# Einmalig unter  Settings → Secrets and variables → Actions  anlegen:
+#   Secrets:   FTP_SERVER    z. B. wXXYYYZZ.kasserver.com  (ohne ftp:// )
+#              FTP_USERNAME  der FTP-Login der Subdomain
+#              FTP_PASSWORD  das FTP-Passwort
+#   Variable (optional):
+#              FTP_SERVER_DIR  Zielordner auf dem Server (Default: ./ )
+#              -> Bei einem FTP-Konto, das direkt in der Subdomain landet,
+#                 passt "./"; sonst z. B. /subdomain.deinedomain.de/
+
+on:
+  push:
+    branches:
+      - main
+      - claude/design-project-implementation-43qg41
+  workflow_dispatch:
+
+concurrency:
+  group: ftp-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: FTP deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps            # explizites FTPS (Port 21). Bei TLS-Problemen auf "ftp" umstellen.
+          port: 21
+          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
+          local-dir: ./
+          # Nur die Website hochladen – Design-Tool-Artefakte & Dev-Dateien bleiben im Repo.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .github/**
+            _ds/**
+            uploads/**
+            .thumbnail
+            index-print.html
+            README.md
+            **/.DS_Store

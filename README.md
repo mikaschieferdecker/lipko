@@ -39,9 +39,27 @@ python3 -m http.server 8000
 
 ## Deploy
 
-Upload the root files (`*.html`, `styles.css`, `main.js`) to any static
-host (Netlify, GitHub Pages, classic web space, …). No server runtime is
-required.
+The files live in this GitHub repo (source of truth) and are published to
+an All-inkl subdomain via FTP. A GitHub Actions workflow
+(`.github/workflows/deploy.yml`) mirrors the site to the webspace on every
+push — design-system source and export artifacts stay in the repo and are
+never uploaded.
+
+**One-time setup** under *Settings → Secrets and variables → Actions*:
+
+| Type | Name | Value |
+|------|------|-------|
+| Secret | `FTP_SERVER` | e.g. `wXXYYYZZ.kasserver.com` (no `ftp://`) |
+| Secret | `FTP_USERNAME` | the subdomain's FTP login |
+| Secret | `FTP_PASSWORD` | the FTP password |
+| Variable | `FTP_SERVER_DIR` | target folder (optional; default `./`) |
+
+After the secrets exist, every push to the default branch deploys
+automatically; you can also run it by hand via *Actions → Deploy to
+All-inkl → Run workflow*. If the host rejects FTPS, switch `protocol`
+to `ftp` in the workflow.
+
+Nothing else is server-side — it is plain static hosting.
 
 ## Contact form
 
