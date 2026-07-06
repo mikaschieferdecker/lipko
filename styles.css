@@ -1,7 +1,8 @@
 /* =============================================================
    Dr. med. Iryna Lipko — Fachärztin für Neurologie, Oldenburg
    Design system: Schieferdecker (single accent, calm tiles)
-   Vanilla CSS. No JavaScript. Mobile-first.
+   Vanilla CSS. Mobile-first. main.js adds progressive
+   enhancement only — every layout works without JavaScript.
    ============================================================= */
 
 /* ---------- 1. Design tokens ---------- */
@@ -448,6 +449,17 @@ p + p { margin-top: 1em; }
   border-color: #c2564e; box-shadow: 0 0 0 3px rgba(194,86,78,0.12);
 }
 .hint { font-size: 0.84rem; color: var(--ink-500); }
+.form-success {
+  display: grid; gap: 6px;
+  padding: 18px 20px; margin-bottom: 22px;
+  border: 1px solid var(--green-tintln);
+  background: var(--green-soft);
+  border-radius: var(--r-md);
+  line-height: 1.5;
+}
+.form-success strong { color: var(--green-deep); font-weight: 600; font-size: 1rem; }
+.form-success span { color: var(--ink-700); font-size: 0.94rem; }
+.form-success a { color: var(--green-deep); font-weight: 600; }
 .consent { display: flex; gap: 11px; align-items: flex-start; font-size: 0.92rem; color: var(--ink-500); }
 .consent input { width: 20px; height: 20px; flex: none; margin-top: 2px; accent-color: var(--green); }
 
