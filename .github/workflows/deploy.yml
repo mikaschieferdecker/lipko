@@ -1,55 +1,51 @@
-name: Deploy to All-inkl
+name: Deploy Website to All-Inkl
 
-# Lädt die Website per FTP(S) auf die All-inkl-Subdomain.
-# GitHub bleibt die Quelle der Dateien – dieser Workflow spiegelt sie
-# bei jedem Push nur auf den Webspace.
+# Basiert auf dem erprobten LFTP-Setup (All-Inkl-kompatibel: ssl-allow no,
+# passive-mode). Dieses Projekt ist statisches HTML ohne build.js – daher
+# wird dist/ hier direkt aus den Website-Dateien zusammengestellt, statt
+# einen Build laufen zu lassen. Die Upload-Zeile bleibt unverändert.
 #
-# Einmalig unter  Settings → Secrets and variables → Actions  anlegen:
-#   Secrets:   FTP_SERVER    z. B. wXXYYYZZ.kasserver.com  (ohne ftp:// )
-#              FTP_USERNAME  der FTP-Login der Subdomain
-#              FTP_PASSWORD  das FTP-Passwort
-#   Variable (optional):
-#              FTP_SERVER_DIR  Zielordner auf dem Server (Default: ./ )
-#              -> Bei einem FTP-Konto, das direkt in der Subdomain landet,
-#                 passt "./"; sonst z. B. /subdomain.deinedomain.de/
+# Benötigte Secrets (Settings → Secrets and variables → Actions):
+#   FTP_SERVER    z. B. wXXYYYZZ.kasserver.com  (ohne ftp:// )
+#   FTP_USERNAME  FTP-Login der Subdomain
+#   FTP_PASSWORD  FTP-Passwort
+# Der FTP-User sollte direkt im Subdomain-Ordner landen (mirror-Ziel ist ./).
 
 on:
   push:
     branches:
-      - main
       - claude/design-project-implementation-43qg41
   workflow_dispatch:
 
-concurrency:
-  group: ftp-deploy
-  cancel-in-progress: true
-
 jobs:
-  deploy:
+  web-deploy:
+    name: 🎉 Deploy HTML Files
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
 
-      - name: FTP deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps            # explizites FTPS (Port 21). Bei TLS-Problemen auf "ftp" umstellen.
-          port: 21
-          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
-          local-dir: ./
-          # Nur die Website hochladen – Design-Tool-Artefakte & Dev-Dateien bleiben im Repo.
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            .github/**
-            _ds/**
-            uploads/**
-            .thumbnail
-            index-print.html
-            README.md
-            **/.DS_Store
+    - name: 📦 Website nach dist/ zusammenstellen
+      run: |
+        mkdir -p dist
+        cp index.html ueber-uns.html leistungen.html expertise.html faq.html kontakt.html \
+           styles.css main.js dist/
+
+    - name: 🚀 Upload via LFTP (All-Inkl kompatibel)
+      env:
+        FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      run: |
+        # Installiere lftp
+        sudo apt-get update && sudo apt-get install -y lftp
+
+        # Übertrage die Dateien mit speziellen All-Inkl Einstellungen
+        lftp -e "
+          set ftp:ssl-allow no;
+          set ftp:passive-mode true;
+          open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER;
+          mirror -R --delete --reverse --no-perms \
+            ./dist/ ./;
+          quit
+        "

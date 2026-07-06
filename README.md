@@ -40,26 +40,29 @@ python3 -m http.server 8000
 ## Deploy
 
 The files live in this GitHub repo (source of truth) and are published to
-an All-inkl subdomain via FTP. A GitHub Actions workflow
-(`.github/workflows/deploy.yml`) mirrors the site to the webspace on every
-push — design-system source and export artifacts stay in the repo and are
-never uploaded.
+an All-inkl subdomain. A GitHub Actions workflow
+(`.github/workflows/deploy.yml`) assembles the website files into `dist/`
+and mirrors them to the webspace with LFTP (`ftp:ssl-allow no`,
+passive mode — the All-inkl-compatible transport) on every push. The
+mirror uses `--delete`, so the subdomain root always matches `dist/`;
+design-system source and export artifacts stay in the repo and are never
+uploaded.
 
 **One-time setup** under *Settings → Secrets and variables → Actions*:
 
-| Type | Name | Value |
-|------|------|-------|
-| Secret | `FTP_SERVER` | e.g. `wXXYYYZZ.kasserver.com` (no `ftp://`) |
-| Secret | `FTP_USERNAME` | the subdomain's FTP login |
-| Secret | `FTP_PASSWORD` | the FTP password |
-| Variable | `FTP_SERVER_DIR` | target folder (optional; default `./`) |
+| Name | Value |
+|------|-------|
+| `FTP_SERVER` | e.g. `wXXYYYZZ.kasserver.com` (no `ftp://`) |
+| `FTP_USERNAME` | the subdomain's FTP login |
+| `FTP_PASSWORD` | the FTP password |
 
-After the secrets exist, every push to the default branch deploys
-automatically; you can also run it by hand via *Actions → Deploy to
-All-inkl → Run workflow*. If the host rejects FTPS, switch `protocol`
-to `ftp` in the workflow.
+Use an FTP user scoped to the subdomain folder so the mirror target `./`
+lands in the right place. After the secrets exist, every push to the
+branch deploys automatically; you can also run it by hand via *Actions →
+Deploy Website to All-Inkl → Run workflow*. To publish a new file, add it
+to the `cp` list in the workflow's *dist* step.
 
-Nothing else is server-side — it is plain static hosting.
+Nothing is server-side — it is plain static hosting.
 
 ## Contact form
 
